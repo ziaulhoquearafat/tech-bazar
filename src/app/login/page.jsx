@@ -6,65 +6,69 @@ import { useState } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // credentials signIn
+    setError("");
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
     const res = await signIn("credentials", {
-      redirect: false,
       email,
       password,
+      redirect: false,
     });
 
     if (!res.error) {
-      router.push("/"); // login success, go to home
+      router.push("/products");
     } else {
-      alert("Login failed: " + res.error);
+      setError("Invalid credentials");
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    await signIn("google", { callbackUrl: "/" });
+  const googleLogin = async () => {
+    await signIn("google", { callbackUrl: "/products" });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6">Login</h2>
+    <div className="min-h-screen flex justify-center items-center">
+      <form
+        onSubmit={handleLogin}
+        className="card w-96 p-6 shadow-xl space-y-3 border"
+      >
+        <h2 className="text-2xl font-bold text-center">Login</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-          <button type="submit" className="btn btn-primary w-full">
-            Login
-          </button>
-        </form>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          className="input input-bordered w-full"
+          required
+        />
 
-        <div className="divider">OR</div>
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          className="input input-bordered w-full"
+          required
+        />
 
+        {error && <p className="text-red-500">{error}</p>}
+
+        <button className="btn btn-primary w-full">Login</button>
+
+        {/* Google Login */}
         <button
-          onClick={handleGoogleSignIn}
-          className="btn btn-secondary w-full"
+          type="button"
+          onClick={googleLogin}
+          className="btn btn-accent w-full"
         >
-          Sign in with Google
+          Continue with Google
         </button>
-      </div>
+      </form>
     </div>
   );
 }
