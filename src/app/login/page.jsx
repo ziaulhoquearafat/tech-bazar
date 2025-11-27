@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -7,97 +8,49 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  // -------------------------------
-  // Login with Email/Password
-  // -------------------------------
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    // credentials signIn
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-    try {
-      const res = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Login failed");
-      } else {
-        // Save user to localStorage (simple way)
-        localStorage.setItem("user", JSON.stringify(data));
-        router.push("/"); // redirect to home
-      }
-    } catch (err) {
-      setError("Server error, try again later");
+    if (!res.error) {
+      router.push("/"); // login success, go to home
+    } else {
+      alert("Login failed: " + res.error);
     }
   };
 
-  // -------------------------------
-  // Google Login
-  // -------------------------------
-  const handleGoogleLogin = async () => {
-    try {
-      const googleAuth = window.google; // loaded by script tag in _app
-      if (!googleAuth) return alert("Google auth not loaded");
-
-      googleAuth.accounts.id.initialize({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-        callback: async (response) => {
-          const token = response.credential;
-          // Send token to backend
-          const res = await fetch("http://localhost:5000/google-login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token }),
-          });
-          const data = await res.json();
-          if (res.ok) {
-            localStorage.setItem("user", JSON.stringify(data));
-            router.push("/");
-          } else {
-            setError(data.message || "Google login failed");
-          }
-        },
-      });
-
-      googleAuth.accounts.id.prompt();
-    } catch (err) {
-      console.log(err);
-      setError("Google login failed");
-    }
+  const handleGoogleSignIn = async () => {
+    await signIn("google", { callbackUrl: "/" });
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-96">
+        <h2 className="text-2xl font-bold mb-6">Login</h2>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
             placeholder="Email"
-            className="input input-bordered w-full"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="input input-bordered w-full"
             required
           />
-
           <input
             type="password"
             placeholder="Password"
-            className="input input-bordered w-full"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="input input-bordered w-full"
             required
           />
-
           <button type="submit" className="btn btn-primary w-full">
             Login
           </button>
@@ -106,10 +59,10 @@ export default function LoginPage() {
         <div className="divider">OR</div>
 
         <button
-          onClick={handleGoogleLogin}
-          className="btn btn-outline btn-secondary w-full"
+          onClick={handleGoogleSignIn}
+          className="btn btn-secondary w-full"
         >
-          Login with Google
+          Sign in with Google
         </button>
       </div>
     </div>

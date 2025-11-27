@@ -35,28 +35,21 @@ export default function Footer() {
 
         <div className="mt-6 sm:mt-0">
           <ul className="flex items-center space-x-4">
-            {/* Twitter */}
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
               <a href="#">
                 <FaSquareXTwitter />
               </a>
             </li>
-
-            {/* Facebook */}
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
               <a href="#">
                 <FaFacebook />
               </a>
             </li>
-
-            {/* Dribbble */}
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
               <a href="#">
                 <FaDribbbleSquare />
               </a>
             </li>
-
-            {/* Youtube */}
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
               <a href="#">
                 <FaYoutube />
