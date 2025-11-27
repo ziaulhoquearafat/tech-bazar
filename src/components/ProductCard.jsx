@@ -1,36 +1,32 @@
-"use client";
+import Link from "next/link";
 
-import { useRouter } from "next/navigation";
-
-export default function ProductCard({ product }) {
-  const router = useRouter();
-
+const ProductCard = ({ product }) => {
   return (
-    <div className="card bg-base-100 shadow-lg border p-3">
-      <figure>
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-40 w-full object-cover rounded"
-        />
-      </figure>
-
-      <div className="card-body space-y-2">
-        <h2 className="card-title">{product.name}</h2>
-
-        <p className="text-gray-600">{product.description?.slice(0, 70)}...</p>
-
-        <p className="font-bold text-lg">Price: ${product.price}</p>
-
-        <div className="card-actions justify-end">
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => router.push(`/products/${product._id}`)}
-          >
-            Buy Now
-          </button>
+    <div className="card bg-white shadow hover:shadow-lg rounded overflow-hidden">
+      <img
+        src={product.imageURL}
+        alt={product.productName}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-4 flex flex-col justify-between h-48">
+        <div>
+          <h3 className="text-xl font-bold">{product.productName}</h3>
+          <p className="text-gray-600 mt-1 line-clamp-2">
+            {product.shortDescription}
+          </p>
+          <p className="mt-2 font-semibold">${product.price}</p>
         </div>
+
+        {/* Details Button */}
+        <Link
+          href={`/products/${product._id}`}
+          className="btn btn-sm btn-primary mt-2"
+        >
+          Details
+        </Link>
       </div>
     </div>
   );
-}
+};
+
+export default ProductCard;

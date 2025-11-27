@@ -7,7 +7,7 @@ export const authOptions = {
     // Google Login
     Google({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      clientSecret: "dummy", // next-auth v5 clientSecret নাই লাগবে
+      clientSecret: "dummy",
     }),
 
     // Email/Password Login
