@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tech Bazar
 
-## Getting Started
+[Live Demo](https://tech-bazar-frontend.vercel.app/)
 
-First, run the development server:
+Tech Bazar is a **Next.js + MongoDB** based e-commerce website.  
+It is a full-featured product management app that supports user registration, login (email & Google OAuth), adding products, managing products, and viewing product details.
+
+---
+
+## Features
+
+- **Authentication**
+  - Email/password login and registration
+  - Google OAuth login
+  - Protected routes for Add Product and Manage Products pages
+
+- **Product Management**
+  - Product listing and detail pages
+  - Add and delete products (Admin/Protected)
+
+- **UI / UX**
+  - Responsive Navbar with dropdown after login
+  - Hero section with Call-To-Action (CTA)
+  - Featured Products section
+  - Testimonial section
+  - Modern card design with hover effects
+
+- **Tech Stack**
+  - Frontend: **Next.js 16 (App Router), Tailwind CSS, DaisyUI**
+  - Backend: **Express.js, MongoDB, Google OAuth**
+  - Authentication: **NextAuth.js**
+  - Deployment: **Vercel (Frontend + Backend)**
+
+---
+
+
+
+## Installation & Setup (Local)
+
+1. **Clone the repository**
 
 ```bash
+git clone <your-repo-url>
+cd product-management-app
+
+
+Install dependencies (Frontend)
+
+npm install
+
+
+Backend setup
+
+cd backend
+npm install
+
+
+Environment variables
+
+Frontend .env:
+
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+
+
+Backend .env:
+
+DB_USER=your_db_user
+DB_PASS=your_db_password
+GOOGLE_CLIENT_ID=your_google_client_id
+PORT=5000
+
+
+Run locally
+
+Backend:
+
+node index.js
+
+
+Frontend:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Open http://localhost:3000
+ in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Live Demo
 
-## Learn More
+https://tech-bazar-frontend.vercel.app/
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
